@@ -1,7 +1,6 @@
-#write the skeleton code for the functions here,
-#also choose which functions you would like to work on for the project (put your name above it on this file and the doc)
+#skeleton code:
 
-#function to read PWM singals from the knobs and send that info to the servo
+#function to read PWM singals from the knobs and send that info to the servo (Zahra)
 def read_and_send_pwm(Pin, serial_interface): 
     #read the current PWM value from the pin
     
@@ -37,7 +36,7 @@ def translate(degree):
     return #returns translated PWM value
 
 
-#function to move the pen to a specific location using inverse kinematics
+#function to move the pen to a specific location using inverse kinematics (Juliette)
 def inverse_kinematics(wrist_x, wrist_y, shoulder_x, shoulder_y):
     #a try except to ensure that the values given are valid
     #equations to find the angle that the shoulder and elbow servos should be at
@@ -65,6 +64,7 @@ def servo_control_error(cleaned_file):
 
     #record the results of the test in a separate file so that we can refer back to it later for error values
     return #returns error value chart to refer back to later on for error values
+
 
 
 
