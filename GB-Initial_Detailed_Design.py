@@ -6,7 +6,7 @@
 
 
 
-#function to check accuracy of the servo
+#function to check accuracy of the servo (Hannah)
 def error_value(expected_degree, actual_degree):
     #checks the angle value that the servo thinks it is at
 
@@ -17,7 +17,7 @@ def error_value(expected_degree, actual_degree):
     return #this will return the error value
 
 
-#function to translate degree values to PWM values
+#function to translate degree values to PWM values (Hannah)
 def translate(degree):
     #ensure that the angle is one that is within the range of the servo (0-180)
     #if it isnt, ensure it does not try to go further than this limit (if it tries to go below 0, set it to 0... etc)
@@ -59,5 +59,4 @@ def servo_control_error(cleaned_file):
 
     #record the results of the test in a separate file so that we can refer back to it later for error values
     return #returns error value chart to refer back to later on for error values
-  
 
