@@ -34,11 +34,11 @@ def translate(degree):
 #function to move the pen to a specific location using inverse kinematics
 def inverse_kinematics(wrist_x, wrist_y, shoulder_x, shoulder_y):
     #a try except to ensure that the values given are valid
-    #equations to find the angle that the shoulder and arm servos should be at
+    #equations to find the angle that the shoulder and elbow servos should be at
 
     #convert the result to degrees
 
-    return #returns the final calculated angles for the shoulder and arm servos in order to reach the coordinates specified
+    return #returns the final calculated angles for the shoulder and elbow servos in order to reach the coordinates specified
 
 
 #function to read and parse the file for error testing
@@ -59,4 +59,5 @@ def servo_control_error(cleaned_file):
 
     #record the results of the test in a separate file so that we can refer back to it later for error values
     return #returns error value chart to refer back to later on for error values
+
 
