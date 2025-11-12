@@ -47,16 +47,16 @@ def inverse_kinematics(wrist_x, wrist_y, shoulder_x, shoulder_y):
     return #returns the final calculated angles for the shoulder and elbow servos in order to reach the coordinates specified
 
 
-#function to read and parse the file for error testing
-def read_file(): (Amanda)
+#function to read and parse the file for error testing (Amanda)
+def read_file(): 
     #retrieve error testing coordinates form a separate file (testing every 10 degrees)
     #read, strip and split the file
     #add a time buffer so that the servo has time to complete the tasks and doesnt get overwhelmend
     return #returns stripped and split file
 
 
-#function to collect and store servo control errors at 10 degree intervals
-def servo_control_error(cleaned_file): (Amanda)
+#function to collect and store servo control errors at 10 degree intervals (Amanda)
+def servo_control_error(cleaned_file): 
     #if the first element in the list is a G1, the second is the shoulder value (x degrees) and the third is the elbow value (x degrees)
 
     #if the firts element is M5, then move the pen up (wrist servo: 30 degrees)
@@ -65,6 +65,7 @@ def servo_control_error(cleaned_file): (Amanda)
 
     #record the results of the test in a separate file so that we can refer back to it later for error values
     return #returns error value chart to refer back to later on for error values
+
 
 
 
