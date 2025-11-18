@@ -1,6 +1,3 @@
-#write the skeleton code for the functions here,
-#also choose which functions you would like to work on for the project (put your name above it on this file and the doc) 
-
 #import required libraries
 from machine import Pin, ADC, PWM
 import time
