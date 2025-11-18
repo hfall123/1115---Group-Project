@@ -28,7 +28,7 @@ def error_value():
     return error
 
 #if the error value is above a certain amount, notify the user using LEDs
-if error_value() > 2 or error_value() < 0:
+if error_value() > 2 or error_value() < -2:
     led1.value(1)
     led2.value(0)
     #notify the user of the severety of the error in the terminal
@@ -37,3 +37,4 @@ if error_value() > 2 or error_value() < 0:
 else:
     led1.value(0)
     led2.value(1)
+
