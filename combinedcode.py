@@ -1,6 +1,7 @@
 #import required libraries
 from machine import Pin, ADC, PWM
 import time
+import math
 
 potentiometer_l = ADC(Pin(27))
 potentiometer_r = ADC(Pin(26))
@@ -19,6 +20,10 @@ shoulder.freq(50)
 wrist.freq(50)
 
 button_press = 0
+L1 = 155
+L2 = 155
+shoulder_x = -50
+shoulder_y = 140
 
 #give an option to addd a degree, just for testing so no input error cases
 #this test code willl be replaced and deleted later
@@ -33,7 +38,7 @@ def translate_voltage(adc_object) -> int:
     #get the pulse width
     pulse_width = duty_cycle * 20000
     #make that number a numebr between 0 and 180
-    translated_degree = ((pulse_width-500)/(25000-5000))*180
+    translated_degree = ((pulse_width - 500)/( 25000 - 5000)) * 180
 
     if translated_degree > 180:
         translated_degree = 180
@@ -61,6 +66,27 @@ def translate_degrees(degree):
     #return the translated PWM value
     return PWM_value
 
+#function that gives you the proper location based off of information about the angles of the servo and arm lengths
+def inverse_kinematics(wrist_x, wrist_y): 
+    try:
+        AC = math.sqrt( (shoulder_x - wrist_x) ** 2 + (shoulder_y - wrist_y) ** 2 )
+        A_C = math.sqrt( (shoulder_x - wrist_x) ** 2 + wrist_y ** 2 )
+        _BAC = math.acos( (L1 ** 2 + int(AC) ** 2 - L2 ** 2) / (2 * L1 * AC) )
+        _ACB = math.asin( (L1 * math.sin(_BAC)) / (L2) )
+        _YAC = math.acos( ((shoulder_y**2) + (AC ** 2) - (A_C**2)) / ( (2) * (shoulder_y) * (AC) ))
+        #find the angles each servo should be at
+        wrist_value = _BAC + _YAC
+        elbow_value = _BAC + _ACB 
+
+        #convert the resulting angles to degrees and find the correct angle for the servos
+        servo_wrist_deg = math.degrees(wrist_value) - 75
+        servo_elbow_deg = 150 - math.degrees(elbow_value)
+    except:
+        #notfiy the user if there is an issue with completingt the calculations
+        print("there has been an issue caluclating the proper anlge values using reverse kinematics")
+
+    return servo_wrist_deg, servo_elbow_deg
+
 while True:
 
     adc_p_l = potentiometer_l.read_u16()
@@ -77,5 +103,8 @@ while True:
         wrist.duty_u16(translate_degrees(30))
         time.sleep(0.2)
 
-    elbow.duty_u16(translate_degrees(translate_voltage(adc_p_l)))
-    shoulder.duty_u16(translate_degrees(translate_voltage(adc_p_r)))
+
+    shoulder_angle, elbow_angle = inverse_kinematics(0, 0)
+    elbow.duty_u16(translate_degrees(elbow_angle))
+    shoulder.duty_u16(translate_degrees(shoulder_angle))
+    time.sleep(3)
