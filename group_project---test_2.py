@@ -30,19 +30,19 @@ shoulder_x = -50
 shoulder_y = 140
 
 #function to read PWM singals from the knobs and send that info to the servo
-def translate_voltage(adc_object) -> int:
+def translate_position(adc_object) -> int:
 
     #get the duty cycle as a number between 0-1
     duty_cycle = adc_object / 65535
     #get the pulse width
     pulse_width = duty_cycle * 20000
-    #make that number a numebr between 0 and 180
-    translated_degree = ((pulse_width - 500)/( 25000 - 5000)) * 180
+    #make that number a numebr between the max and minimum coordinates (0 - 200)
+    translated_degree = ((pulse_width - 500)/( 25000 - 5000)) * 200
 
-    #ensure that the translated angle is one that is within the range of the servo (0-180)
+    #ensure that the translated angle is one that is within the boudries of the paper (0-200)
     #if it isnt, ensure it does not try to go further than this limit (if it tries to go below 0, set it to 0... etc)
-    if translated_degree > 180:
-        translated_degree = 180
+    if translated_degree > 200:
+        translated_degree = 200
     elif translated_degree < 0:
         translated_degree = 0
 
@@ -77,18 +77,18 @@ def inverse_kinematics(wrist_x, wrist_y):
         _ACB = math.asin( (L1 * math.sin(_BAC)) / (L2) )
         _YAC = math.acos( ((shoulder_y**2) + (AC ** 2) - (A_C**2)) / ( (2) * (shoulder_y) * (AC) ))
         #find the angles each servo should be at
-        wrist_value = _BAC + _YAC
+        shoulder_value = _BAC + _YAC
         elbow_value = _BAC + _ACB 
 
         #convert the resulting angles to degrees and find the correct angle for the servos
-        servo_wrist_deg = math.degrees(wrist_value) - 75
+        servo_shoulder_deg = math.degrees(shoulder_value) - 75
         servo_elbow_deg = 150 - math.degrees(elbow_value)
     except:
         #notfiy the user if there is an issue with completingt the calculations
         print("there has been an issue caluclating the proper anlge values using reverse kinematics")
 
     #return the angles that the servos should be at in order to reach the specified wrist coordinates
-    return servo_wrist_deg, servo_elbow_deg
+    return servo_shoulder_deg, servo_elbow_deg
 
 #a loop to keep the program running continuously
 while True:
@@ -97,11 +97,14 @@ while True:
     adc_p_r = potentiometer_r.read_u16()
 
     #set the shoulder anlge values to the values obtained from inverse kinematics
-    shoulder_angle, elbow_angle = inverse_kinematics(translate_voltage(adc_p_l), translate_voltage(adc_p_r))
+    shoulder_angle, elbow_angle = inverse_kinematics(translate_position(adc_p_l), translate_position(adc_p_r))
 
     #give the proper anlge values to the servos
     elbow.duty_u16(translate_degrees(elbow_angle))
     shoulder.duty_u16(translate_degrees(shoulder_angle))
+
+    print(translate_position(adc_p_r)) 
+
 
     #if the button is presses an even ammount of times, move the servo down
     if sw5.value() == 1 and button_press%2 == 0:
