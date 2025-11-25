@@ -96,12 +96,12 @@ while True:
     adc_p_l = potentiometer_l.read_u16()
     adc_p_r = potentiometer_r.read_u16()
 
-    shoulder_angle, elbow_angle = inverse_kinematics(int(translate_voltage(adc_p_l)), int(translate_voltage(adc_p_r)))
+    #set the shoulder anlge values to the values obtained from inverse kinematics
+    shoulder_angle, elbow_angle = inverse_kinematics(translate_voltage(adc_p_l), translate_voltage(adc_p_r))
 
-    print(int(elbow_angle))
-    print(int(shoulder_angle))
-    elbow.duty_u16(int(elbow_angle))
-    shoulder.duty_u16(int(shoulder_angle))
+    #give the proper anlge values to the servos
+    elbow.duty_u16(translate_degrees(elbow_angle))
+    shoulder.duty_u16(translate_degrees(shoulder_angle))
 
     #if the button is presses an even ammount of times, move the servo down
     if sw5.value() == 1 and button_press%2 == 0:
