@@ -132,7 +132,7 @@ while True:
         adc_p_l = potentiometer_l.read_u16()
         adc_p_r = potentiometer_r.read_u16()
     except:
-        print("There had been an issue recieving data from the potentiometers")
+        print("There has been an issue recieving data from the potentiometers")
         led_ok.value(0)
         led_error.value(1)
 
@@ -140,7 +140,7 @@ while True:
         #set the shoulder anlge values to the values obtained from inverse kinematics
         shoulder_angle, elbow_angle = inverse_kinematics(translate_position(adc_p_l), translate_position(adc_p_r))
     except:
-        print("There had been an issue calculating proper angle values using inverse kinematics")
+        print("There has been an issue calculating proper angle values using inverse kinematics")
         led_ok.value(1)
         led_error.value(0)
 
@@ -161,7 +161,7 @@ while True:
         elbow.duty_u16(translate_degrees(elbow_angle))
         shoulder.duty_u16(translate_degrees(shoulder_angle)) 
     except:
-        print("There had been an issue sending data to the servos")
+        print("There has been an issue sending data to the servos")
         led_ok.value(0)
         led_error.value(1)
 
