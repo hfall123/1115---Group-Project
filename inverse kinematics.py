@@ -1,6 +1,7 @@
 def inverse_kinematics(wrist_x, wrist_y):
     
-    if wrist_x > 20:
+    # Keeps arm inside drawing area
+    if wrist_x > 20: 
         wrist_x = 20
     elif wrist_y < 20:
         wrist_y = 20
@@ -8,14 +9,13 @@ def inverse_kinematics(wrist_x, wrist_y):
     # Distance from shoulder to target
     AC = math.sqrt(wrist_x**2 + wrist_y**2)
 
-    # --- Check reachability ---
+    # Check reachability
     if AC == 0:
         AC = 1
 
     # Angle from shoulder to target
     angle_AC = math.atan2(wrist_y, wrist_x)
     
-
     # Law of cosines for triangle at shoulder
     angle_BAC = math.acos((L1**2 + AC**2 - L2**2) / (2 * L1 * AC))
 
@@ -44,5 +44,6 @@ if elbow > 180:
     elbow = 180
 elif elbow < 0:
         elbow = 0
+
 
 
