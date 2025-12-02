@@ -1,3 +1,6 @@
+#comments written by Hannah
+#error handling written by Hannah
+#setup and execution written by Hannah
 # Grammar checks by Juliette
 
 #import required libraries
@@ -35,6 +38,7 @@ o_e_off = 35
 led_ok.value(1)
 led_error.value(0)
 
+#translate position writen by Zahra - help from Hannah
 #function to read PWM singals from the knobs and send that info to the servo
 def translate_position(adc_object) -> int:
 
@@ -54,7 +58,8 @@ def translate_position(adc_object) -> int:
 
     #return the translated value in degrees
     return translated_degree
-    
+
+#translate degrees writen by Hannah
 #function to translate degree values to PWM values
 def translate_degrees(degree):
     #ensure that the angle is one that is within the range of the servo (0-180)
@@ -74,7 +79,7 @@ def translate_degrees(degree):
     #return the translated PWM value
     return PWM_value
 
-# Written by Juliette
+# inverse kinematics written by Juliette - help from Hannah
 #function that gives you the proper wrist location based off of information about the angles of the servo and arm lengths
 def inverse_kinematics(wrist_x, wrist_y):
     
@@ -109,7 +114,7 @@ def inverse_kinematics(wrist_x, wrist_y):
 
     return shoulder_deg, elbow_deg
 
-#Written by Amanda
+#calibration function written by Amanda
 '''
 #calibration code to account for the differences in the jigs
 #this version untested, previous code with virtual mode was tested for the printing functions and such  
@@ -148,6 +153,7 @@ def adc_to_angle(adc_value, calibration):
         return 90 + (adc_value - adc90) * 90 / (adc180 - adc90)
 
 ''' 
+#user instructions and user interactions writen by Hannah
 #give user instrucitons
 print("""
         This is a drawing board.
