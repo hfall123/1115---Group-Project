@@ -1,4 +1,10 @@
 def inverse_kinematics(wrist_x, wrist_y):
+    
+    if wrist_x > 20:
+        wrist_x = 20
+    elif wrist_y < 20:
+        wrist_y = 20
+    
     # Distance from shoulder to target
     AC = math.sqrt(wrist_x**2 + wrist_y**2)
 
@@ -14,12 +20,12 @@ def inverse_kinematics(wrist_x, wrist_y):
     angle_BAC = math.acos((L1**2 + AC**2 - L2**2) / (2 * L1 * AC))
 
     # Shoulder angle
-    theta_shoulder = angle_AC + angle_BAC
+    theta_shoulder = angle_AC - angle_BAC
 
     # Law of cosines for elbow
     angle_elbow = math.acos((L1**2 + L2**2 - AC**2) / (2 * L1 * L2))
     
-    theta_elbow = angle_elbow - math.pi  # elbow bends "down"
+    theta_elbow = math.pi - angle_elbow  # elbow bends "down"
 
     # Apply servo offsets
     theta_shoulder += o_s_off
@@ -31,5 +37,12 @@ def inverse_kinematics(wrist_x, wrist_y):
 
     return shoulder_deg, elbow_deg
 
+#add this to the while loop to handle errors and execute the code
+shoulder, elbow = inverse_kinematics(shoulder_, elbow_)
+    
+if elbow > 180:
+    elbow = 180
+elif elbow < 0:
+        elbow = 0
 
 
