@@ -38,7 +38,7 @@ o_e_off = 35
 led_ok.value(1)
 led_error.value(0)
 
-#translate position writen by Zahra - help from Hannah
+#translate position written by Zahra - help from Hannah
 #function to read PWM singals from the knobs and send that info to the servo
 def translate_position(adc_object) -> int:
 
@@ -59,7 +59,7 @@ def translate_position(adc_object) -> int:
     #return the translated value in degrees
     return translated_degree
 
-#translate degrees writen by Hannah
+#translate degrees written by Hannah
 #function to translate degree values to PWM values
 def translate_degrees(degree):
     #ensure that the angle is one that is within the range of the servo (0-180)
@@ -153,7 +153,7 @@ def adc_to_angle(adc_value, calibration):
         return 90 + (adc_value - adc90) * 90 / (adc180 - adc90)
 
 ''' 
-#user instructions and user interactions writen by Hannah
+#user instructions and user interactions written by Hannah
 #give user instrucitons
 print("""
         This is a drawing board.
