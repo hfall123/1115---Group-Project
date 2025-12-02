@@ -114,14 +114,14 @@ def inverse_kinematics(wrist_x, wrist_y):
 print("""
         This is a drawing board.
       
-        To use this piece of technology, turn the knobs on the expansion board.
+        To use this peice of technology, turn the knobs on the expansion board.
         The left knob will move the pen up and down and the right knob will move the pen left and right.
-        To place the pen on the paper, hit the button on the bottom middle of the expansion board labelled sw5.
+        To place the pen on the paper, hit the button on the middle of the expansion board labled sw5.
 
-        Before you use this drawing tool, it is recommeneded that you run a calibration test to ensure clean lines. 
-        To do this, press the button in the middle of the expansion board labelled sw4.
+        Before you use this drawing tool, it is reomeneded that you run a callibration test to ensure clean lines. 
+        To do this, press the button on the top right of the expansion board labled sw4.
       
-        If there are any issues running the program, the red light will illuminate on the board.
+        if there are any issues running the program, the red light will illuminate on the board.
         otherwise you will only see the green one.
       """)
 
@@ -132,7 +132,7 @@ while True:
         adc_p_l = potentiometer_l.read_u16()
         adc_p_r = potentiometer_r.read_u16()
     except:
-        print("There has been an issue recieving data from the potentiometers")
+        print("there had been an issue recieving data from the potentiometers")
         led_ok.value(0)
         led_error.value(1)
 
@@ -140,22 +140,21 @@ while True:
         #set the shoulder anlge values to the values obtained from inverse kinematics
         shoulder_angle, elbow_angle = inverse_kinematics(translate_position(adc_p_l), translate_position(adc_p_r))
     except:
-        print("There has been an issue calculating proper angle values using inverse kinematics")
+        print("there had been an issue calculating proper angle values using inverse kinematics")
         led_ok.value(1)
         led_error.value(0)
 
     
     try:
         #give the properly translated angle values to the servos
-        elbow.duty_u16(translate_degrees(elbow_angle - 2070))
-        shoulder.duty_u16(translate_degrees(shoulder_angle - 490)) 
+        elbow.duty_u16(translate_degrees(elbow_angle - 2106))
+        shoulder.duty_u16(translate_degrees( shoulder_angle - 406)) 
 
         #for testing
         print("e ", elbow_angle - 2106)
         print("s ", shoulder_angle - 406)
-        time.sleep(1)
     except:
-        print("There has been an issue sending data to the servos")
+        print("there had been an issue sending data to the servos")
         led_ok.value(0)
         led_error.value(1)
 
