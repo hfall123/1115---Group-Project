@@ -1,3 +1,5 @@
+# Grammar checks by Juliette
+
 #import required libraries
 from machine import Pin, ADC, PWM
 import time
@@ -72,6 +74,7 @@ def translate_degrees(degree):
     #return the translated PWM value
     return PWM_value
 
+# Written by Juliette
 #function that gives you the proper wrist location based off of information about the angles of the servo and arm lengths
 def inverse_kinematics(wrist_x, wrist_y):
     
