@@ -26,9 +26,10 @@ def inverse_kinematics(wrist_x, wrist_y):
     theta_elbow += o_e_off
 
     # Convert to degrees
-    shoulder_deg = math.degrees(theta_shoulder)
+    shoulder_deg = math.degrees(theta_shoulder) - 80
     elbow_deg = math.degrees(theta_elbow)
 
     return shoulder_deg, elbow_deg
+
 
 
