@@ -39,3 +39,4 @@ def read_file():
         parsed.append(entry)
 
     return parsed #returns stripped and split file
+
