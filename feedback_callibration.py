@@ -1,20 +1,7 @@
-USE_VIRTUAL = False  #change this to false for real hardware 
+#calibration code to account for the differences in the jigs
 
 def read_adc(samples=25):  #takes 25 then averages them to reduce "noise"
-    if USE_VIRTUAL:
-        #converts shoulder angle into ADC value
-        base = int(shoulder_angle / 180 * 65535)  
-        return sum([max(0, min(65535, base + random.randint(-10,10)+50)) for _ in range(samples)]) / samples
-    else:  #code for hardware 
         return sum([adc_x.read_u16() for _ in range(samples)]) / samples  
-
-def shoulder_write(angle):  
-    global shoulder_angle  #enables the shoulder to update outside the function
-    if USE_VIRTUAL:
-        shoulder_angle = angle  #simulates moving the servo
-        print(f"[Virtual] Shoulder moved to {angle}°")  #shows whats happening 
-    else:  
-        pass  # real servo code can be added here but for now it does nothing 
 
 def move_capture(angle):
     shoulder_write(angle)   #move shoulder to target angle
@@ -22,9 +9,9 @@ def move_capture(angle):
     return read_adc()  #returns what the actual reading was
 
 def run_calibration():
-    global shoulder_angle
-    shoulder_angle = 90.0  # start angle for virtual servo
-    data = {f"{a}deg": move_capture(a) for a in [0, 90, 180]}   #creates a dicionary for the values
+
+    points = [0, 90, 180]    
+    data = {f"{point}deg": move_capture(point) for point in points}   #creates a dicionary for the values
     with open("calibration.json", "w") as f:  
         ujson.dump(data, f)   #converts to storage format so program remembers calibration between rus
     print("Calibration complete:", data)
@@ -32,19 +19,6 @@ def run_calibration():
 run_calibration()
 
 #compensates for the variations detected 
-
-def adc_to_angle(adc_value, calibration):
-    # Extracts calibration points from the json file 
-    adc0 = calibration["0deg"]
-    adc90 = calibration["90deg"]
-    adc180 = calibration["180deg"]
-
-    if adc_value <= adc90:
-        # interpolate between 0° and 90°
-        return (adc_value - adc0) * 90 / (adc90 - adc0)
-    else:
-        # interpolate between 90° and 180°
-        return 90 + (adc_value - adc90) * 90 / (adc180 - adc90)
 
 def adc_to_angle(adc_value, calibration):
     # Extracts calibration points from the json file 
